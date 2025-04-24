@@ -1,14 +1,16 @@
 
 <template>
-  <div class="flex flex-col items-center justify-center h-screen p-4 text-center">
-    <h1 class="text-4xl font-bold">404</h1>
-    <p class="mt-2 text-lg text-muted-foreground">Страница не найдена</p>
-    <RouterLink to="/" class="mt-6 inline-flex items-center justify-center px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90">
-      Вернуться на главную
+  <div class="h-full flex flex-col items-center justify-center p-4 text-center">
+    <div class="text-7xl font-bold text-primary mb-4">404</div>
+    <h1 class="text-2xl font-bold mb-2">Страница не найдена</h1>
+    <p class="text-muted-foreground mb-6">Страница, которую вы ищете, не существует или была перемещена.</p>
+    <RouterLink to="/">
+      <Button>На главную</Button>
     </RouterLink>
   </div>
 </template>
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+import { Button } from '@/components/ui/button'
 </script>

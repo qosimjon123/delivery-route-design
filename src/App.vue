@@ -1,14 +1,16 @@
 
 <template>
-  <div>
-    <RouterView />
+  <div class="min-h-screen flex flex-col bg-slate-50">
+    <AppHeader />
+    <RouterView class="flex-1" />
+    <BottomNavigation />
     <Toaster />
-    <Sonner />
   </div>
 </template>
 
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import { Toaster } from './components/ui/toaster'
-import { Toaster as Sonner } from './components/ui/sonner'
+import AppHeader from '@/components/AppHeader.vue'
+import BottomNavigation from '@/components/BottomNavigation.vue'
+import { Toaster } from '@/components/ui/toaster'
 </script>

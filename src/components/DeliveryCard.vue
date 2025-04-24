@@ -42,6 +42,11 @@
 import { Card } from '@/components/ui/card'
 import { Clock, MapPin, Package } from 'lucide-vue-next'
 
+interface Location {
+  lat: number;
+  lng: number;
+}
+
 interface Delivery {
   id: number;
   address: string;
@@ -50,6 +55,7 @@ interface Delivery {
   status: string;
   distance: string;
   items: number;
+  location: Location;
 }
 
 defineProps<{

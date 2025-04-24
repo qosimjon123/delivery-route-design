@@ -4,19 +4,29 @@ import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 import './index.css'
 
-import Index from './pages/Index.vue'
+// Импорт страниц
+import MapPage from './pages/MapPage.vue'
+import OrdersPage from './pages/OrdersPage.vue'
+import HistoryPage from './pages/HistoryPage.vue'
+import ProfilePage from './pages/ProfilePage.vue'
 import NotFound from './pages/NotFound.vue'
 
+// Создаем маршруты
 const routes = [
-  { path: '/', component: Index },
+  { path: '/', component: MapPage },
+  { path: '/orders', component: OrdersPage },
+  { path: '/history', component: HistoryPage },
+  { path: '/profile', component: ProfilePage },
   { path: '/:pathMatch(.*)*', component: NotFound }
 ]
 
+// Создаем роутер
 const router = createRouter({
   history: createWebHistory(),
   routes
 })
 
-const app = createApp(App)
-app.use(router)
-app.mount('#app')
+// Создаем и монтируем приложение
+createApp(App)
+  .use(router)
+  .mount('#app')

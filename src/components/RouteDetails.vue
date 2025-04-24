@@ -1,40 +1,68 @@
 
 <template>
-  <div class="bg-card border-t shadow-lg p-4 z-10">
-    <div class="flex justify-between items-center mb-3">
-      <div>
-        <h3 class="font-medium">{{ delivery.address }}</h3>
-        <div class="flex items-center mt-1">
-          <Clock :size="14" class="text-muted-foreground" />
-          <span class="text-sm text-muted-foreground ml-1">
-            {{ delivery.time }} • {{ delivery.distance }}
-          </span>
+  <div class="bg-white border-t p-4">
+    <div v-if="currentDelivery" class="mb-4">
+      <div class="flex justify-between items-start">
+        <div>
+          <h2 class="font-medium">{{ currentDelivery.address }}</h2>
+          <p class="text-sm text-muted-foreground">{{ currentDelivery.customer }}</p>
         </div>
+        <Badge :variant="currentDelivery.status === 'Активный' ? 'success' : 'default'">
+          {{ currentDelivery.status }}
+        </Badge>
       </div>
       
-      <div class="flex gap-2">
-        <Button size="icon" variant="outline">
-          <Phone :size="18" />
-        </Button>
-        <Button size="icon" variant="outline">
-          <MessageCircle :size="18" />
-        </Button>
+      <div class="flex gap-4 mt-3">
+        <div class="flex items-center text-sm">
+          <Clock :size="16" class="mr-1 text-muted-foreground" />
+          <span>{{ estimatedTime }}</span>
+        </div>
+        <div class="flex items-center text-sm">
+          <MapPin :size="16" class="mr-1 text-muted-foreground" />
+          <span>{{ distance }}</span>
+        </div>
+        <div class="flex items-center text-sm">
+          <Package :size="16" class="mr-1 text-muted-foreground" />
+          <span>{{ currentDelivery.items }} поз.</span>
+        </div>
       </div>
     </div>
     
-    <div class="flex gap-2">
-      <Button class="flex-1" variant="secondary">
-        <Navigation class="mr-2" :size="18" />
-        Навигация
+    <div v-else class="text-center py-2 text-muted-foreground">
+      Выберите заказ для отображения маршрута
+    </div>
+    
+    <div class="flex gap-3 mt-2">
+      <Button 
+        class="flex-1" 
+        size="sm" 
+        :disabled="!currentDelivery"
+        @click="$emit('navigate')"
+      >
+        <Navigation :size="16" class="mr-2" />
+        Начать навигацию
       </Button>
-      <Button class="flex-1">Я прибыл</Button>
+      <Button 
+        variant="outline" 
+        size="sm" 
+        :disabled="!currentDelivery"
+      >
+        <Phone :size="16" class="mr-2" />
+        Позвонить
+      </Button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Clock, Navigation, Phone, MessageCircle } from 'lucide-vue-next'
+import { Clock, MapPin, Package, Navigation, Phone } from 'lucide-vue-next'
+
+interface Location {
+  lat: number;
+  lng: number;
+}
 
 interface Delivery {
   id: number;
@@ -44,9 +72,14 @@ interface Delivery {
   status: string;
   distance: string;
   items: number;
+  location: Location;
 }
 
 defineProps<{
-  delivery: Delivery;
+  currentDelivery: Delivery | null;
+  estimatedTime: string;
+  distance: string;
 }>()
+
+defineEmits(['navigate'])
 </script>
